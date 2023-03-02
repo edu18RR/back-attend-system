@@ -1,26 +1,44 @@
 package com.imjcm.back_attend_system.controller;
 
-import com.imjcm.back_attend_system.response.StudentResponse;
 import com.imjcm.back_attend_system.request.StudentRequest;
+import com.imjcm.back_attend_system.response.StudentResponse;
 import com.imjcm.back_attend_system.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/students")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
 
-    @PostMapping
+    @PostMapping("/students")
     public ResponseEntity<StudentResponse> createStudent(@RequestBody StudentRequest studentRequest) {
-        StudentResponse student = studentService.createStudent(studentRequest);
-        return new ResponseEntity<>(student, HttpStatus.CREATED);
+        return new ResponseEntity<>(studentService.createStudent(studentRequest), HttpStatus.CREATED);
     }
 
+    @GetMapping("/students/{id}")
+    public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<List<StudentResponse>> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+    }
+
+    @PutMapping("/students/{id}")
+    public ResponseEntity<StudentResponse> updateStudent(@PathVariable Long id, @RequestBody StudentRequest studentRequest) {
+        return new ResponseEntity<>(studentService.updateStudentById(id, studentRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/students/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudentById(@PathVariable Long id) {
+        studentService.deleteUserById(id);
+    }
 }

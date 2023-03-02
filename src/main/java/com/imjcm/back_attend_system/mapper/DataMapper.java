@@ -42,7 +42,6 @@ public class DataMapper {
                 .build();
     }
 
-
     public TeacherResponse buildTeacherDto(Teacher teacher) {
         return TeacherResponse.builder()
                 .id(teacher.getId())
@@ -85,16 +84,21 @@ public class DataMapper {
 
     public CourseResponse buildCourseDto(Course course) {
         List<StudentResponse> list = null;
+        TeacherResponse teacher = null;
         if (course.getStudents() != null) {
             list = course.getStudents().stream().map(DataMapper::buildStudentDto).collect(Collectors.toList());
         }
+        if (course.getTeacher() != null) {
+            teacher = buildTeacherDto(course.getTeacher());
+        }
+
         return CourseResponse.builder()
                 .id(course.getId())
                 .title(course.getTitle())
                 .description(course.getDescription())
                 .createdAt(course.getCreatedAt())
                 .courseModality(course.getCourseModality())
-                .teacher(buildTeacherDto(course.getTeacher()))
+                .teacher(teacher)
                 .students(list)
                 .build();
     }
