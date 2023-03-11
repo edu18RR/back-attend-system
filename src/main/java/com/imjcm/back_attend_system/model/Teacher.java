@@ -25,9 +25,9 @@ public class Teacher {
     private String codeTeacher;
     private double salary;
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime editedAt;
+    private LocalDateTime editedAt = LocalDateTime.now();
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses = new ArrayList<>();

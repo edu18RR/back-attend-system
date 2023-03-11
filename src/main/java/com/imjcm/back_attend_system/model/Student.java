@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,9 @@ public class Student {
     private String email;
     private String studentCode;
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime editedAt;
+    private LocalDateTime editedAt = LocalDateTime.now();
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private List<Course> courses = new ArrayList<>();

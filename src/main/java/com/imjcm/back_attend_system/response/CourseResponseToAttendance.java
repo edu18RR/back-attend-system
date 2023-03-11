@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseResponse {
+public class CourseResponseToAttendance {
     private Long id;
     private String title;
     private String description;
@@ -22,5 +22,4 @@ public class CourseResponse {
     private TeacherResponse teacher;
     private CourseModality courseModality;
     private List<StudentResponse> students = new ArrayList<>();
-    private List<AttendanceResponseToCourse> attendances = new ArrayList<>();
 }

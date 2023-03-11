@@ -11,32 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/teachers")
 @RequiredArgsConstructor
 public class TeacherController {
     private final TeacherService teacherService;
 
-    @PostMapping("/teachers")
+    @PostMapping
     public ResponseEntity<TeacherResponse> createTeacher(@RequestBody TeacherRequest teacherRequest) {
         return new ResponseEntity<>(teacherService.createTeacher(teacherRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/teachers/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TeacherResponse> getTeacherById(@PathVariable Long id) {
         return new ResponseEntity<>(teacherService.getTeacherById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/teachers")
+    @GetMapping
     public ResponseEntity<List<TeacherResponse>> getAllTeachers() {
         return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
     }
 
-    @PutMapping("/teachers/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TeacherResponse> updateTeacherById(@PathVariable Long id, @RequestBody TeacherRequest teacherRequest) {
         return new ResponseEntity<>(teacherService.updateTeacherById(id, teacherRequest), HttpStatus.OK);
     }
 
-    @DeleteMapping("/teachers/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTeacherById(@PathVariable Long id) {
         teacherService.deleteTeacherById(id);
