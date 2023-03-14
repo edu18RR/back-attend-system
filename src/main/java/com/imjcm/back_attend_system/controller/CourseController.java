@@ -57,9 +57,4 @@ public class CourseController {
         return new ResponseEntity<>(courseService.createAttendance(id_course), HttpStatus.OK);
     }
 
-    @PutMapping("/{id_course}/attendances/{id_attendance}/students/{id_student}")
-    public ResponseEntity<CourseResponse> recordStudentToAttendance(@PathVariable Long id_course, @PathVariable Long id_attendance, @PathVariable Long id_student) {
-        return new ResponseEntity<>(courseService.recordStudentToAttendance(id_course, id_attendance, id_student), HttpStatus.OK);
-    }
-
 }

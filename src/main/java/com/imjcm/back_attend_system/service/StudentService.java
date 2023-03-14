@@ -1,5 +1,7 @@
 package com.imjcm.back_attend_system.service;
 
+import com.imjcm.back_attend_system.exception.InternalServerErrorException;
+import com.imjcm.back_attend_system.exception.NotFoundException;
 import com.imjcm.back_attend_system.model.Student;
 import com.imjcm.back_attend_system.repository.StudentRepository;
 import com.imjcm.back_attend_system.request.StudentRequest;
@@ -21,16 +23,11 @@ public class StudentService {
     private final ModelMapper mapper;
 
     public StudentResponse createStudent(StudentRequest studentRequest) {
-        return mapper.map(
-                studentRepository.save(
-                        mapper.map(studentRequest, Student.class)),
-                StudentResponse.class);
+        return mapper.map(saveStudent(mapper.map(studentRequest, Student.class)), StudentResponse.class);
     }
 
     public StudentResponse getStudentById(Long id) {
-        return mapper.map(
-                studentRepository.findById(id).orElseThrow(() -> new RuntimeException("error get id")),
-                StudentResponse.class);
+        return mapper.map(findStudentById(id), StudentResponse.class);
     }
 
     public List<StudentResponse> getAllStudents() {
@@ -39,20 +36,34 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-
     public StudentResponse updateStudentById(Long id, StudentRequest studentRequest) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("error update id"));
+        Student student = findStudentById(id);
         student.setName(studentRequest.getName());
         student.setSurname(studentRequest.getSurname());
         student.setEmail(studentRequest.getEmail());
         student.setStudentCode(studentRequest.getStudentCode());
         student.setEditedAt(LocalDateTime.now());
-        return mapper.map(studentRepository.save(student), StudentResponse.class);
+        return mapper.map(saveStudent(student), StudentResponse.class);
     }
 
     public void deleteUserById(Long id) {
-        studentRepository.findById(id).orElseThrow(() -> new RuntimeException("error delete id"));
-        studentRepository.deleteById(id);
+        studentRepository.deleteById(findStudentById(id).getId());
     }
+
+    private Student findStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found Student with id = " + id));
+    }
+
+    private Student saveStudent(Student student) {
+        Student studentSaved;
+        try {
+            studentSaved = studentRepository.save(student);
+        } catch (Exception e) {
+            throw new InternalServerErrorException(e.getMessage());
+
+        }
+        return studentSaved;
+    }
+
 }
 

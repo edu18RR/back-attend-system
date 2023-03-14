@@ -24,4 +24,10 @@ public class AttendanceController {
     public ResponseEntity<List<AttendanceResponse>> getAllAttendances() {
         return new ResponseEntity<>(attendanceService.getAllAttendances(), HttpStatus.OK);
     }
+
+    @PutMapping("/{id_attendance}/students/{id_student}")
+    public ResponseEntity<AttendanceResponse> recordStudentToAttendance(@PathVariable Long id_attendance, @PathVariable Long id_student) {
+        return new ResponseEntity<>(attendanceService.recordStudentToAttendance(id_attendance, id_student), HttpStatus.OK);
+    }
+
 }
