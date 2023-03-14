@@ -1,6 +1,6 @@
 package com.imjcm.back_attend_system.response;
 
-import com.imjcm.back_attend_system.enums.CourseModality;
+import com.imjcm.back_attend_system.enums.AttendanceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseResponse {
+public class AttendanceResponseToCourse {
     private Long id;
-    private String title;
-    private String description;
-    private LocalDate createdAt;
-    private TeacherResponse teacher;
-    private CourseModality courseModality;
+    private AttendanceStatus status;
+    private LocalDate createAt;
     private List<StudentResponse> students = new ArrayList<>();
-    private List<AttendanceResponseToCourse> attendances = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.imjcm.back_attend_system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.imjcm.back_attend_system.enums.CourseModality;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,8 +24,8 @@ public class Course {
     private String description;
     @Enumerated(value = EnumType.STRING)
     private CourseModality courseModality;
-    private LocalDate createdAt;
-    private LocalDate editedAt;
+    private LocalDate createdAt = LocalDate.now();
+    private LocalDate editedAt = LocalDate.now();
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
@@ -35,4 +36,7 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<Student> students = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "course")
+    private List<Attendance> attendances = new ArrayList<>();
 }

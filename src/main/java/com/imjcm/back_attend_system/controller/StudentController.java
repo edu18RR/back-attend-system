@@ -11,32 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/students")
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
 
-    @PostMapping("/students")
+    @PostMapping
     public ResponseEntity<StudentResponse> createStudent(@RequestBody StudentRequest studentRequest) {
         return new ResponseEntity<>(studentService.createStudent(studentRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/students/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/students")
+    @GetMapping
     public ResponseEntity<List<StudentResponse>> getAllStudents() {
         return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
 
-    @PutMapping("/students/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StudentResponse> updateStudent(@PathVariable Long id, @RequestBody StudentRequest studentRequest) {
         return new ResponseEntity<>(studentService.updateStudentById(id, studentRequest), HttpStatus.OK);
     }
 
-    @DeleteMapping("/students/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudentById(@PathVariable Long id) {
         studentService.deleteUserById(id);
